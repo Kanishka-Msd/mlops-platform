@@ -1,3 +1,10 @@
 venv/
 mlflow.db
 src/mlruns/
+src/mlflow.db
+src/__pycache__/
+src/data/
+__pycache__/
+*.pyc
+*.pyo
+.DS_Store
