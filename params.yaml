@@ -5,7 +5,15 @@ data:
   random_state: 42
 
 model:
-  n_estimators: 200
-  max_depth: 15
-  min_samples_split: 5
-  random_state: 42
+  random_forest:
+    n_estimators: 200
+    max_depth: 15
+    min_samples_split: 5
+    random_state: 42
+
+  xgboost:
+    n_estimators: 200
+    max_depth: 6
+    learning_rate: 0.1
+    subsample: 0.8
+    random_state: 42

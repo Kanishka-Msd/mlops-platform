@@ -9,8 +9,8 @@ stages:
       size: 3518606
     - path: params.yaml
       hash: md5
-      md5: 9cb8b7a12207a69f56c010e079e6cd26
-      size: 191
+      md5: 24afbc4743c49e24b6e05aa8d87c26c8
+      size: 330
     - path: src/preprocess.py
       hash: md5
       md5: 549654b29eacf4d737f934da322bca74
@@ -60,16 +60,23 @@ stages:
       size: 52105
     - path: params.yaml
       hash: md5
-      md5: 9cb8b7a12207a69f56c010e079e6cd26
-      size: 191
+      md5: 24afbc4743c49e24b6e05aa8d87c26c8
+      size: 330
     - path: src/train.py
       hash: md5
-      md5: 4ffa9bdb19b7b595e62414be20af2da3
-      size: 1819
+      md5: 7218307fdfa5024754db8338c9eb5b97
+      size: 2485
     params:
       params.yaml:
         model:
-          n_estimators: 200
-          max_depth: 10
-          min_samples_split: 5
-          random_state: 42
+          random_forest:
+            n_estimators: 200
+            max_depth: 15
+            min_samples_split: 5
+            random_state: 42
+          xgboost:
+            n_estimators: 200
+            max_depth: 6
+            learning_rate: 0.1
+            subsample: 0.8
+            random_state: 42
