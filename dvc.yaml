@@ -1,0 +1,28 @@
+stages:
+  preprocess:
+    cmd: cd src && python preprocess.py
+    deps:
+      - data/adult.csv
+      - src/preprocess.py
+      - params.yaml
+    outs:
+      - data/X_train.csv
+      - data/X_test.csv
+      - data/y_train.csv
+      - data/y_test.csv
+    params:
+      - params.yaml:
+          - data
+
+  train:
+    cmd: cd src && python train.py
+    deps:
+      - data/X_train.csv
+      - data/X_test.csv
+      - data/y_train.csv
+      - data/y_test.csv
+      - src/train.py
+      - params.yaml
+    params:
+      - params.yaml:
+          - model
