@@ -48,7 +48,3 @@ mlops-platform/
 - [ ] Day 4: params.yaml config-driven experiments
 - [ ] Day 5: Full pipeline review
 
-Then push it:
-git add README.md
-git commit -m "add project README with results and reproduction steps"
-git push
