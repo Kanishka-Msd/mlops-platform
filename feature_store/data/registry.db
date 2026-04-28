@@ -1,0 +1,84 @@
+
+d
+F
+personA person in the income dataset"	person_idJincome_prediction
+¦ÀÏ «#¦ÀÏ «#
+F
+(
+__dummy"
+__dummy_idJincome_prediction
+¦ÀÏÈè“#¦ÀÏÈè“#1"$de0332a0-c88c-48bd-a394-1553a5921280*¦ÀÏØ‹Ì#2¾
+Ÿ
+personal_featuresincome_predictionperson"
+age"
+race"
+sex"
+native-country2€ç„:şevent_timestampZKI/Users/kanish/mlops-platform/feature_store/data/personal_features.parquetŠ1feast.infra.offline_stores.file_source.FileSource¢I/Users/kanish/mlops-platform/feature_store/data/personal_features.parquet’¥ÀÏÀûÃÉ"¦ÀÏ¸»ˆ#@RPersonal demographic featuresb
+	person_id’latest
+¦ÀÏ¸—#¦ÀÏ¸—#2ç
+È
+financial_featuresincome_predictionperson"
+
+fnlwgt"
+capital-gain"
+capital-loss"
+marital-status"
+relationship2€ç„:€event_timestampZLJ/Users/kanish/mlops-platform/feature_store/data/financial_features.parquetŠ1feast.infra.offline_stores.file_source.FileSource¢J/Users/kanish/mlops-platform/feature_store/data/financial_features.parquet’¥ÀÏ€¢ÌÉ"¦ÀÏÀÖŒ#@RFinancial and family featuresb
+	person_id’latest
+¦ÀÏ€Ä§#¦ÀÏ€Ä§#2Õ
+¶
+work_featuresincome_predictionperson"
+	workclass"
+	education"
+education-num"
+
+occupation"
+hours-per-week2€ç„:öevent_timestampZGE/Users/kanish/mlops-platform/feature_store/data/work_features.parquetŠ1feast.infra.offline_stores.file_source.FileSource¢E/Users/kanish/mlops-platform/feature_store/data/work_features.parquet’¥ÀÏĞ½ÈÉ"¦ÀÏèÀ#@RWork and education featuresb
+	person_id’latest
+¦ÀÏ€—¶#¦ÀÏ€—¶#RÈ
+—
+,feast.infra.online_stores.sqlite.SqliteTable"g
+?/Users/kanish/mlops-platform/feature_store/data/online_store.db$income_prediction_financial_features
+–
+,feast.infra.online_stores.sqlite.SqliteTable"f
+?/Users/kanish/mlops-platform/feature_store/data/online_store.db#income_prediction_personal_features
+’
+,feast.infra.online_stores.sqlite.SqliteTable"b
+?/Users/kanish/mlops-platform/feature_store/data/online_store.dbincome_prediction_work_featuresbŠevent_timestampZGE/Users/kanish/mlops-platform/feature_store/data/work_features.parquetŠ1feast.infra.offline_stores.file_source.FileSource¢E/Users/kanish/mlops-platform/feature_store/data/work_features.parquetªincome_prediction’¥ÀÏĞ½ÈÉ"¦ÀÏèÀ#b’event_timestampZKI/Users/kanish/mlops-platform/feature_store/data/personal_features.parquetŠ1feast.infra.offline_stores.file_source.FileSource¢I/Users/kanish/mlops-platform/feature_store/data/personal_features.parquetªincome_prediction’¥ÀÏÀûÃÉ"¦ÀÏ¸»ˆ#b”event_timestampZLJ/Users/kanish/mlops-platform/feature_store/data/financial_features.parquetŠ1feast.infra.offline_stores.file_source.FileSource¢J/Users/kanish/mlops-platform/feature_store/data/financial_features.parquetªincome_prediction’¥ÀÏ€¢ÌÉ"¦ÀÏÀÖŒ#Š1
+
+income_prediction
+¦ÀÏĞçë¦ÀÏĞçë’¾
+¨
+personal_featuresincome_prediction"feature_view*¾
+Ÿ
+personal_featuresincome_predictionperson"
+age"
+race"
+sex"
+native-country2€ç„:şevent_timestampZKI/Users/kanish/mlops-platform/feature_store/data/personal_features.parquetŠ1feast.infra.offline_stores.file_source.FileSource¢I/Users/kanish/mlops-platform/feature_store/data/personal_features.parquet’¥ÀÏÀûÃÉ"¦ÀÏ¸»ˆ#@RPersonal demographic featuresb
+	person_id’latest
+¦ÀÏ¸—#¦ÀÏ¸—#2¦ÀÏ€Ê¥#B$fb24910e-ace0-4e08-acd2-e6c62121fb84
+Ò
+financial_featuresincome_prediction"feature_view*ç
+È
+financial_featuresincome_predictionperson"
+
+fnlwgt"
+capital-gain"
+capital-loss"
+marital-status"
+relationship2€ç„:€event_timestampZLJ/Users/kanish/mlops-platform/feature_store/data/financial_features.parquetŠ1feast.infra.offline_stores.file_source.FileSource¢J/Users/kanish/mlops-platform/feature_store/data/financial_features.parquet’¥ÀÏ€¢ÌÉ"¦ÀÏÀÖŒ#@RFinancial and family featuresb
+	person_id’latest
+¦ÀÏ€Ä§#¦ÀÏ€Ä§#2¦ÀÏ˜’µ#B$781a4e7d-96d3-4931-ab94-ebb412c96850
+»
+work_featuresincome_prediction"feature_view*Õ
+¶
+work_featuresincome_predictionperson"
+	workclass"
+	education"
+education-num"
+
+occupation"
+hours-per-week2€ç„:öevent_timestampZGE/Users/kanish/mlops-platform/feature_store/data/work_features.parquetŠ1feast.infra.offline_stores.file_source.FileSource¢E/Users/kanish/mlops-platform/feature_store/data/work_features.parquet’¥ÀÏĞ½ÈÉ"¦ÀÏèÀ#@RWork and education featuresb
+	person_id’latest
+¦ÀÏ€—¶#¦ÀÏ€—¶#2¦ÀÏ ŒÄ#B$37f7b5ca-7301-4b9a-9e7c-2cc0bac40aa3
