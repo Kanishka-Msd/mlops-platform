@@ -1,0 +1,36 @@
+name: ML Pipeline CI
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  run-pipeline:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: |
+          pip install mlflow scikit-learn pandas numpy dvc[dagshub] xgboost
+
+      - name: Pull data from DagsHub
+        env:
+          DAGSHUB_TOKEN: ${{ secrets.DAGSHUB_TOKEN }}
+        run: |
+          dvc remote modify origin --local auth basic
+          dvc remote modify origin --local user Kanishka-Msd
+          dvc remote modify origin --local password $DAGSHUB_TOKEN
+          dvc pull
+
+      - name: Run pipeline
+        run: |
+          dvc repro
