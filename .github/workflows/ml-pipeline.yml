@@ -29,7 +29,7 @@ jobs:
           dvc remote modify origin --local auth basic
           dvc remote modify origin --local user Kanishka-Msd
           dvc remote modify origin --local password $DAGSHUB_TOKEN
-          dvc pull
+          dvc pull ~r origin
 
       - name: Run pipeline
         run: |
