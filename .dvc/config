@@ -1,0 +1,8 @@
+[core]
+    remote = origin
+['remote "gdrive"']
+    url = gdrive://1tHaQTXlpzoUiLnwXthJkoFXp_ZTE_3C3
+    gdrive_use_service_account = true
+    gdrive_service_account_json_file_path = ../service-account-key.json
+['remote "origin"']
+    url = https://dagshub.com/Kanishka-Msd/mlops-platform.dvc
