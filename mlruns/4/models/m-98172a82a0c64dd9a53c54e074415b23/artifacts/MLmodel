@@ -1,0 +1,23 @@
+artifact_path: /Users/kanish/mlops-platform/mlruns/4/models/m-98172a82a0c64dd9a53c54e074415b23/artifacts
+flavors:
+  python_function:
+    env:
+      conda: conda.yaml
+      virtualenv: python_env.yaml
+    loader_module: mlflow.sklearn
+    model_path: model.pkl
+    predict_fn: predict
+    python_version: 3.12.3
+  sklearn:
+    code: null
+    pickled_model: model.pkl
+    serialization_format: cloudpickle
+    sklearn_version: 1.8.0
+    skops_trusted_types: null
+mlflow_version: 3.11.1
+model_id: m-98172a82a0c64dd9a53c54e074415b23
+model_size_bytes: 670469
+model_uuid: m-98172a82a0c64dd9a53c54e074415b23
+prompts: null
+run_id: 947b6757c5b74f45a7c8def36d18bac5
+utc_time_created: '2026-04-30 01:14:40.793394'

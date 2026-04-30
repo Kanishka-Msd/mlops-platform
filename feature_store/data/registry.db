@@ -7,15 +7,16 @@ F
 (
 __dummy"
 __dummy_idJincome_prediction
-¦ÀÏÈè“#¦ÀÏÈè“#1"$de0332a0-c88c-48bd-a394-1553a5921280*¦ÀÏØ‹Ì#2¾
+¦ÀÏÈè“#¦ÀÏÈè“#1"$2efb75f2-0f8e-43ef-bd8f-5fd4ad466c2b*•ÚÊÏùíF2Õ
 Ÿ
 personal_featuresincome_predictionperson"
 age"
 race"
 sex"
 native-country2€ç„:şevent_timestampZKI/Users/kanish/mlops-platform/feature_store/data/personal_features.parquetŠ1feast.infra.offline_stores.file_source.FileSource¢I/Users/kanish/mlops-platform/feature_store/data/personal_features.parquet’¥ÀÏÀûÃÉ"¦ÀÏ¸»ˆ#@RPersonal demographic featuresb
-	person_id’latest
-¦ÀÏ¸—#¦ÀÏ¸—#2ç
+	person_id’latest1
+¦ÀÏ¸—#’ÚÊÏ€àòv
+‘óÅÀà­ª!ÚÊÏ2ÿ
 È
 financial_featuresincome_predictionperson"
 
@@ -24,8 +25,9 @@ __dummy_idJincome_prediction
 capital-loss"
 marital-status"
 relationship2€ç„:€event_timestampZLJ/Users/kanish/mlops-platform/feature_store/data/financial_features.parquetŠ1feast.infra.offline_stores.file_source.FileSource¢J/Users/kanish/mlops-platform/feature_store/data/financial_features.parquet’¥ÀÏ€¢ÌÉ"¦ÀÏÀÖŒ#@RFinancial and family featuresb
-	person_id’latest
-¦ÀÏ€Ä§#¦ÀÏ€Ä§#2Õ
+	person_id’latest2
+¦ÀÏ€Ä§#“ÚÊÏ€†×
+’óÅÀÈÂñwÚÊÏ2í
 ¶
 work_featuresincome_predictionperson"
 	workclass"
@@ -34,8 +36,9 @@ __dummy_idJincome_prediction
 
 occupation"
 hours-per-week2€ç„:öevent_timestampZGE/Users/kanish/mlops-platform/feature_store/data/work_features.parquetŠ1feast.infra.offline_stores.file_source.FileSource¢E/Users/kanish/mlops-platform/feature_store/data/work_features.parquet’¥ÀÏĞ½ÈÉ"¦ÀÏèÀ#@RWork and education featuresb
-	person_id’latest
-¦ÀÏ€—¶#¦ÀÏ€—¶#RÈ
+	person_id’latest2
+¦ÀÏ€—¶#•ÚÊÏà¾ÜF
+“óÅÀ˜Á§×ÚÊÏRÈ
 —
 ,feast.infra.online_stores.sqlite.SqliteTable"g
 ?/Users/kanish/mlops-platform/feature_store/data/online_store.db$income_prediction_financial_features
