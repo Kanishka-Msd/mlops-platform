@@ -39,8 +39,10 @@ jobs:
           python src/evaluate.py
 
       - name: Post CML report
+        uses: iterative/setup-cml@v2
+
+      - name: Comment metrics on commit
         env:
           REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          pip install cml
           cml comment create metrics_report.md
