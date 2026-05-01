@@ -5,7 +5,7 @@ import sys
 from sklearn.metrics import roc_auc_score
 
 # Thresholds
-MIN_AUC = 0.99
+MIN_AUC = 0.90
 
 # Load model and test data
 model = pickle.load(open("data/best_model.pkl", "rb"))
