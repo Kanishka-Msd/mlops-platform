@@ -33,6 +33,10 @@ jobs:
           dvc remote modify origin --local user Kanishka-Msd
           dvc remote modify origin --local password $DAGSHUB_TOKEN
           dvc pull --remote origin
+        
+        - name: Validate data quality
+        run: |
+          python feature_store/validate_data.py
 
       - name: Run pipeline
         run: |
