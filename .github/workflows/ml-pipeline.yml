@@ -34,3 +34,13 @@ jobs:
       - name: Run pipeline
         run: |
           dvc repro
+      - name: Generate metrics report
+        run: |
+          python src/evaluate.py
+
+      - name: Post CML report
+        env:
+          REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          pip install cml
+          cml comment create metrics_report.md
