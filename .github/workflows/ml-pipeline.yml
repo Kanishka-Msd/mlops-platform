@@ -37,11 +37,15 @@ jobs:
       - name: Run pipeline
         run: |
           dvc repro
+      - name: Validate model quality
+        run: |
+          python src/validate_model.py
+
       - name: Generate metrics report
         run: |
           python src/evaluate.py
 
-      - name: Post CML report
+      - name: Setup CML report
         uses: iterative/setup-cml@v2
 
       - name: Comment metrics on commit
