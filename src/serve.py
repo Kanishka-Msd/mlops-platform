@@ -65,3 +65,11 @@ class IncomeClassifier:
             "prediction": "over_50k" if prediction == 1 else "under_50k",
             "probability": round(float(probability), 3)
         }
+        
+        @bentoml.api()
+        def health(self) -> dict:
+            return {
+                "status": "healthy",
+                "version": "1.0.3",
+                "model": "XGBoost AUC 0.930"
+            }
