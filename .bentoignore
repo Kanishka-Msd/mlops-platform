@@ -1,0 +1,7 @@
+mlruns/
+src/mlruns/
+*.db
+venv/
+.dvc/
+feature_store/
+tests/
