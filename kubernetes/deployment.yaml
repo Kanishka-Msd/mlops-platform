@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: income-classifier
+  labels:
+    app: income-classifier
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: income-classifier
+  template:
+    metadata:
+      labels:
+        app: income-classifier
+    spec:
+      imagePullSecrets:
+      - name: dockerhub-secret
+      containers:
+      - name: income-classifier
+        image: kanishka76/income-classifier:1.0.3
+        imagePullPolicy: Never
+        ports:
+        - containerPort: 3000
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "250m"
+          limits:
+            memory: "512Mi"
+            cpu: "500m"

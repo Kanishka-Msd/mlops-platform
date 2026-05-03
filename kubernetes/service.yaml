@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: income-classifier-service
+spec:
+  selector:
+    app: income-classifier
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 3000
+  type: NodePort
