@@ -1,0 +1,10 @@
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+
+scrape_configs:
+  - job_name: 'income-classifier'
+    static_configs:
+      - targets: ['income-classifier-8h3m.onrender.com']
+    scheme: https
+    metrics_path: '/metrics'
