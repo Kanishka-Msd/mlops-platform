@@ -70,6 +70,6 @@ class IncomeClassifier:
         def health(self) -> dict:
             return {
                 "status": "healthy",
-                "version": "1.0.3",
+                "version": "1.0.4",
                 "model": "XGBoost AUC 0.930"
             }
