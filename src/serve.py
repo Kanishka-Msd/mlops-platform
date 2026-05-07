@@ -1,11 +1,33 @@
 import bentoml
 import pandas as pd
 import pickle
+import time
+import os
+from prometheus_client import Counter, Histogram
 from pydantic import BaseModel
 from sklearn.preprocessing import LabelEncoder
 
 # Load your best model
-model = pickle.load(open("data/best_model_feast.pkl", "rb"))
+model_path = os.path.join(os.path.dirname(__file__), "best_model_feast.pkl")
+model = pickle.load(open(model_path, "rb"))
+
+# Prometheus metrics
+prediction_counter = Counter(
+    'income_predictions_total',
+    'Total predictions made',
+    ['prediction', 'version']
+)
+
+confidence_histogram = Histogram(
+    'income_prediction_confidence',
+    'Model confidence scores',
+    buckets=[0.5, 0.6, 0.7, 0.8, 0.9, 0.95, 0.99, 1.0]
+)
+
+request_latency = Histogram(
+    'income_request_latency_seconds',
+    'Request latency in seconds'
+)
 
 class InputData(BaseModel):
     age: int
@@ -28,6 +50,7 @@ class IncomeClassifier:
 
     @bentoml.api()
     def predict(self, input_data: InputData) -> dict:
+        start_time = time.time()
 
         # Build dataframe with correct column ORDER
         df = pd.DataFrame([{
@@ -60,16 +83,25 @@ class IncomeClassifier:
         # Make prediction
         prediction = model.predict(df)[0]
         probability = model.predict_proba(df)[0].max()
+        result = "over_50k" if prediction == 1 else "under_50k"
+
+        # Track ML metrics
+        prediction_counter.labels(
+            prediction=result,
+            version="2.0.3"
+        ).inc()
+        confidence_histogram.observe(float(probability))
+        request_latency.observe(time.time() - start_time)
 
         return {
-            "prediction": "over_50k" if prediction == 1 else "under_50k",
+            "prediction": result,
             "probability": round(float(probability), 3)
         }
-        
-        @bentoml.api()
-        def health(self) -> dict:
-            return {
-                "status": "healthy",
-                "version": "1.0.4",
-                "model": "XGBoost AUC 0.930"
-            }
+
+    @bentoml.api()
+    def health(self) -> dict:
+        return {
+            "status": "healthy",
+            "version": "2.0.3",
+            "model": "XGBoost AUC 0.930"
+        }

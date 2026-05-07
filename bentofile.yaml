@@ -2,14 +2,13 @@ service: "src/serve.py:IncomeClassifier"
 labels:
   owner: kanishka
   project: mlops-platform
-
 include:
   - "src/serve.py"
-  - "data/best_model_feast.pkl"
-
+  - "src/best_model_feast.pkl"
 python:
   packages:
     - pandas
     - scikit-learn
     - xgboost
     - numpy
+    - prometheus_client

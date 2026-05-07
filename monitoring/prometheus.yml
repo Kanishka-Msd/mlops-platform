@@ -5,6 +5,6 @@ global:
 scrape_configs:
   - job_name: 'income-classifier'
     static_configs:
-      - targets: ['income-classifier-8h3m.onrender.com']
+      - targets: ['income-classifier-1.onrender.com']
     scheme: https
     metrics_path: '/metrics'
