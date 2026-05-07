@@ -25,24 +25,30 @@ jobs:
 
       - name: Install dependencies
         run: |
-          pip install mlflow scikit-learn pandas numpy dvc[dagshub] xgboost
+          pip install mlflow scikit-learn pandas numpy dvc[dagshub] xgboost evidently
 
       - name: Pull data from DagsHub
         env:
           DAGSHUB_TOKEN: ${{ secrets.DAGSHUB_TOKEN }}
         run: |
+          dvc remote add origin https://dagshub.com/Kanishka-Msd/mlops-platform.dvc
           dvc remote modify origin --local auth basic
           dvc remote modify origin --local user Kanishka-Msd
           dvc remote modify origin --local password $DAGSHUB_TOKEN
           dvc pull --remote origin
-        
+
       - name: Validate data quality
         run: |
           python feature_store/validate_data.py
 
+      - name: Check for data drift
+        run: |
+          python src/detect_drift.py
+
       - name: Run pipeline
         run: |
           dvc repro
+
       - name: Validate model quality
         run: |
           python src/validate_model.py
