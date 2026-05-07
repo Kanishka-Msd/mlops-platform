@@ -31,7 +31,7 @@ jobs:
         env:
           DAGSHUB_TOKEN: ${{ secrets.DAGSHUB_TOKEN }}
         run: |
-          dvc remote add origin https://dagshub.com/Kanishka-Msd/mlops-platform.dvc
+          dvc remote add --force origin https://dagshub.com/Kanishka-Msd/mlops-platform.dvc
           dvc remote modify origin --local auth basic
           dvc remote modify origin --local user Kanishka-Msd
           dvc remote modify origin --local password $DAGSHUB_TOKEN
