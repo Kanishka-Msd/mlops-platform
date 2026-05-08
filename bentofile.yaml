@@ -2,9 +2,30 @@ service: "src/serve.py:IncomeClassifier"
 labels:
   owner: kanishka
   project: mlops-platform
+
+description: |
+  # MLOps Platform 🚀
+  
+  Production-grade income prediction API built with BentoML.
+  
+  ## Model Performance
+  - **Algorithm:** XGBoost
+  - **ROC-AUC:** 0.930
+  - **F1 Score:** 0.719
+  - **Accuracy:** 87.4%
+  
+  ## How to use
+  Send a POST request to /predict with person details.
+  Returns income prediction (over/under $50K) with confidence score.
+  
+  ## Links
+  - GitHub: https://github.com/Kanishka-Msd/mlops-platform
+  - DagsHub: https://dagshub.com/Kanishka-Msd/mlops-platform
+
 include:
   - "src/serve.py"
   - "src/best_model_feast.pkl"
+
 python:
   packages:
     - pandas
