@@ -1,7 +1,5 @@
 from airflow import DAG
-from airflow.providers.standard.operators.python import PythonOperator
-from airflow.providers.standard.operators.bash import BashOperator
-from airflow.operators.python import BranchPythonOperator
+from airflow.providers.standard.operators.python import PythonOperator, BranchPythonOperator
 from datetime import datetime, timedelta
 import subprocess
 import sys
@@ -58,8 +56,6 @@ def check_drift_and_decide():
         capture_output=True, text=True
     )
     print(result.stdout)
-    
-    # Check if drift was detected
     if 'DRIFT DETECTED' in result.stdout:
         print("🚨 Drift detected → will retrain!")
         return 'retrain_model'
@@ -96,19 +92,34 @@ def validate_model():
 # Task 5: Monitor predictions
 def monitor_predictions():
     import pandas as pd
-    import numpy as np
-    
-    # Load test data
     X_test = pd.read_csv("/Users/kanish/mlops-platform/data/X_test.csv")
     y_test = pd.read_csv("/Users/kanish/mlops-platform/data/y_test.csv")
-    
     total = len(X_test)
     print(f"\n📊 Model Output Monitoring Report:")
     print(f"─────────────────────────────────")
     print(f"Total test samples: {total}")
-    print(f"Features: {list(X_test.columns)}")
     print(f"✅ Data monitoring complete!")
     return "Monitoring complete!"
+
+# Task 6: Generate summary
+def generate_summary():
+    run_date = datetime.now()
+    print(f"""
+    ✅ MLOPS PIPELINE SUMMARY
+    ─────────────────────────
+    Run Date: {run_date}
+    Status: SUCCESS
+
+    Steps completed:
+    1. ✅ Data validated (25 checks)
+    2. ✅ Drift detection ran
+    3. ✅ Model retrained/skipped
+    4. ✅ Model validated (AUC > 0.90)
+    5. ✅ Predictions monitored
+
+    Next run: Every Sunday midnight
+    Platform: production-grade MLOps ✅
+    """)
 
 # Define tasks
 t1_validate_data = PythonOperator(
@@ -149,9 +160,16 @@ t5_monitor = PythonOperator(
     trigger_rule='none_failed_min_one_success'
 )
 
-# Define order with branching
+t6_summary = PythonOperator(
+    task_id='generate_summary',
+    python_callable=generate_summary,
+    dag=dag
+)
+
+# Define order
 t1_validate_data >> t2_check_drift
 t2_check_drift >> [t3a_retrain, t3b_skip]
 t3a_retrain >> t4_validate_model
 t3b_skip >> t4_validate_model
 t4_validate_model >> t5_monitor
+t5_monitor >> t6_summary
