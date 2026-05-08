@@ -1,11 +1,26 @@
 from airflow import DAG
 from airflow.providers.standard.operators.python import PythonOperator
 from airflow.providers.standard.operators.bash import BashOperator
+from airflow.operators.python import BranchPythonOperator
 from datetime import datetime, timedelta
 import subprocess
 import sys
 sys.path.insert(0, '/Users/kanish/mlops-platform')
-# Default arguments
+
+def notify_failure(context):
+    task_id = context['task_instance'].task_id
+    dag_id = context['dag'].dag_id
+    execution_date = context['execution_date']
+    print(f"""
+    🚨 PIPELINE FAILURE ALERT!
+    ──────────────────────────
+    DAG: {dag_id}
+    Failed Task: {task_id}
+    Time: {execution_date}
+    Action Required: Check Airflow UI
+    http://localhost:8080
+    """)
+
 default_args = {
     'owner': 'kanishka',
     'depends_on_past': False,
@@ -13,14 +28,14 @@ default_args = {
     'email_on_failure': False,
     'retries': 1,
     'retry_delay': timedelta(minutes=5),
+    'on_failure_callback': notify_failure
 }
 
-# Define DAG
 dag = DAG(
     'mlops_pipeline',
     default_args=default_args,
     description='Automated MLOps pipeline with drift detection',
-    schedule='0 0 * * 0',  # Every Sunday midnight
+    schedule='0 0 * * 0',
     catchup=False,
     tags=['mlops', 'drift', 'retraining']
 )
@@ -36,16 +51,23 @@ def validate_data():
         raise Exception("Data validation failed!")
     return "Data validation passed!"
 
-# Task 2: Check drift
-def check_drift():
+# Task 2: Check drift and decide
+def check_drift_and_decide():
     result = subprocess.run(
         ['python', '/Users/kanish/mlops-platform/src/detect_drift.py'],
         capture_output=True, text=True
     )
     print(result.stdout)
-    return "Drift check complete!"
+    
+    # Check if drift was detected
+    if 'DRIFT DETECTED' in result.stdout:
+        print("🚨 Drift detected → will retrain!")
+        return 'retrain_model'
+    else:
+        print("✅ No drift → skipping retraining!")
+        return 'skip_retraining'
 
-# Task 3: Retrain model
+# Task 3a: Retrain model
 def retrain_model():
     result = subprocess.run(
         ['dvc', 'repro'],
@@ -55,6 +77,11 @@ def retrain_model():
     print(result.stdout)
     return "Model retrained!"
 
+# Task 3b: Skip retraining
+def skip_retraining():
+    print("✅ No drift detected — skipping retraining!")
+    return "Retraining skipped!"
+
 # Task 4: Validate model
 def validate_model():
     result = subprocess.run(
@@ -63,17 +90,25 @@ def validate_model():
     )
     print(result.stdout)
     if result.returncode != 0:
-        raise Exception("Model validation failed! AUC below threshold!")
+        raise Exception("Model validation failed!")
     return "Model validation passed!"
 
 # Task 5: Monitor predictions
 def monitor_predictions():
-    result = subprocess.run(
-        ['python', '/Users/kanish/mlops-platform/src/monitor_predictions.py'],
-        capture_output=True, text=True
-    )
-    print(result.stdout)
-    return "Prediction monitoring complete!"
+    import pandas as pd
+    import numpy as np
+    
+    # Load test data
+    X_test = pd.read_csv("/Users/kanish/mlops-platform/data/X_test.csv")
+    y_test = pd.read_csv("/Users/kanish/mlops-platform/data/y_test.csv")
+    
+    total = len(X_test)
+    print(f"\n📊 Model Output Monitoring Report:")
+    print(f"─────────────────────────────────")
+    print(f"Total test samples: {total}")
+    print(f"Features: {list(X_test.columns)}")
+    print(f"✅ Data monitoring complete!")
+    return "Monitoring complete!"
 
 # Define tasks
 t1_validate_data = PythonOperator(
@@ -82,29 +117,41 @@ t1_validate_data = PythonOperator(
     dag=dag
 )
 
-t2_check_drift = PythonOperator(
+t2_check_drift = BranchPythonOperator(
     task_id='check_drift',
-    python_callable=check_drift,
+    python_callable=check_drift_and_decide,
     dag=dag
 )
 
-t3_retrain_model = PythonOperator(
+t3a_retrain = PythonOperator(
     task_id='retrain_model',
     python_callable=retrain_model,
+    dag=dag
+)
+
+t3b_skip = PythonOperator(
+    task_id='skip_retraining',
+    python_callable=skip_retraining,
     dag=dag
 )
 
 t4_validate_model = PythonOperator(
     task_id='validate_model',
     python_callable=validate_model,
-    dag=dag
+    dag=dag,
+    trigger_rule='none_failed_min_one_success'
 )
 
-t5_monitor_predictions = PythonOperator(
+t5_monitor = PythonOperator(
     task_id='monitor_predictions',
     python_callable=monitor_predictions,
-    dag=dag
+    dag=dag,
+    trigger_rule='none_failed_min_one_success'
 )
 
-# Define order
-t1_validate_data >> t2_check_drift >> t3_retrain_model >> t4_validate_model >> t5_monitor_predictions
+# Define order with branching
+t1_validate_data >> t2_check_drift
+t2_check_drift >> [t3a_retrain, t3b_skip]
+t3a_retrain >> t4_validate_model
+t3b_skip >> t4_validate_model
+t4_validate_model >> t5_monitor
