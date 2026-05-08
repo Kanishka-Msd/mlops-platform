@@ -33,25 +33,31 @@ Trains a machine learning model to predict whether a person earns over $50K/year
 
 ## 📁 Project Structure
 
+```
 mlops-platform/
-├── data/                    # datasets (DVC tracked)
+├── data/                         # Datasets (DVC tracked)
 ├── src/
-│   ├── preprocess.py        # data cleaning
-│   ├── train.py             # model training + MLflow
-│   ├── evaluate.py          # metrics evaluation
-│   ├── validate_model.py    # model quality gate
-│   ├── serve.py             # BentoML REST API
-│   ├── detect_drift.py      # EvidentlyAI drift detection
-│   ├── psi_monitor.py       # PSI score monitoring
-│   └── monitor_predictions.py # output monitoring
-├── feature_store/           # Feast feature store
-├── kubernetes/              # K8s deployment configs
-├── monitoring/              # Prometheus + Grafana
-├── airflow/                 # Airflow DAGs
-├── .github/workflows/       # CI/CD pipeline
-├── dvc.yaml                 # DVC pipeline
-├── bentofile.yaml           # BentoML config
-└── params.yaml              # model parameters
+│   ├── preprocess.py             # Data cleaning + train/test split
+│   ├── train.py                  # Model training + MLflow logging
+│   ├── evaluate.py               # Metrics evaluation
+│   ├── validate_model.py         # Model quality gate (AUC > 0.90)
+│   ├── serve.py                  # BentoML REST API
+│   ├── detect_drift.py           # EvidentlyAI drift detection
+│   ├── psi_monitor.py            # PSI score monitoring
+│   └── monitor_predictions.py    # Output distribution monitoring
+├── feature_store/                # Feast feature store configs
+├── kubernetes/                   # Kubernetes deployment configs
+├── monitoring/                   # Prometheus + Grafana configs
+├── airflow/
+│   └── dags/
+│       └── mlops_pipeline.py     # Airflow DAG (full pipeline)
+├── .github/
+│   └── workflows/
+│       └── ml-pipeline.yml       # CI/CD GitHub Actions
+├── dvc.yaml                      # DVC pipeline definition
+├── bentofile.yaml                # BentoML packaging config
+└── params.yaml                   # Model hyperparameters
+```
 
 ## 🚀 8-Week Journey
 
